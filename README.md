@@ -90,6 +90,8 @@ Halaman profil pengguna dengan foto, informasi nama dan kelas, statistik belajar
 ---
 
 ## 📋 SCRUM Board (ClickUp)
+![Uploading scrum_board_uas_android.png…]()
+
 
 <img width="1710" height="896" alt="Screenshot 2026-05-16 123916" src="https://github.com/user-attachments/assets/59d746d7-d61e-4598-977c-cd5211d767c7" />
 
