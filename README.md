@@ -91,7 +91,10 @@ Halaman profil pengguna dengan foto, informasi nama dan kelas, statistik belajar
 
 ## 📋 SCRUM Board (ClickUp)
 
-> 🔗 [Link ClickUp]() ← *isi link ClickUp lo di sini*
+<img width="1710" height="896" alt="Screenshot 2026-05-16 123916" src="https://github.com/user-attachments/assets/59d746d7-d61e-4598-977c-cd5211d767c7" />
+
+
+> 🔗 [Link ClickUp](https://app.clickup.com/90181774075/v/s/901810071984) 
 
 ---
 
