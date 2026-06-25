@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0F172A">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:paddingTop="52dp"
+        android:paddingBottom="24dp"
+        android:paddingHorizontal="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HASIL KUIS"
+            android:textSize="12sp"
+            android:textColor="#475569"
+            android:letterSpacing="0.15"
+            android:fontFamily="sans-serif-medium" />
+
+        <TextView
+            android:id="@+id/tvQuizTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#F8FAFC"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <!-- Score Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#1E293B">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="36dp">
+
+            <!-- Score Circle -->
+            <FrameLayout
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginBottom="24dp">
+
+                <ProgressBar
+                    android:id="@+id/scoreProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/circular_progress_bar" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/tvScoreText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textColor="#F8FAFC"
+                        android:textSize="40sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-black" />
+
+                    <TextView
+                        android:id="@+id/tvScoreLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Skor"
+                        android:textColor="#64748B"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Detail -->
+            <TextView
+                android:id="@+id/tvScoreDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Benar 0 dari 0 soal"
+                android:textColor="#94A3B8"
+                android:textSize="16sp"
+                android:gravity="center" />
+
+            <!-- Grade Badge -->
+            <TextView
+                android:id="@+id/tvGrade"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="8dp"
+                android:text="—"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:background="@drawable/badge_weather" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Spacer -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Tombol Share -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnShare"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="8dp"
+        android:text="Bagikan Hasil"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:backgroundTint="#0F2A1A"
+        app:icon="@android:drawable/ic_menu_share"
+        app:iconTint="#22C55E" />
+
+    <!-- Tombol Kembali -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="24dp"
+        android:text="Kembali ke Menu"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:backgroundTint="#1E40AF" />
+
+</LinearLayout>

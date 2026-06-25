@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // 🔥 Gemini SDK - Saya update ke 0.9.0 agar support fitur JSON Mode & model terbaru
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")

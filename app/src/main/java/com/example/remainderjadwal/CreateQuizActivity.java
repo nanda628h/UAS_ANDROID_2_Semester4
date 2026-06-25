@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class CreateQuizActivity extends AppCompatActivity {
 
-    EditText etTitle, etQ, et0, et1, et2, et3, etCorrect;
+    EditText etTitle, etTimer, etQ, et0, et1, et2, et3, etCorrect;
     Button btnAddQ, btnSave;
     Quiz current;
 
@@ -22,6 +22,7 @@ public class CreateQuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_quiz);
 
         etTitle = findViewById(R.id.etTitle);
+        etTimer = findViewById(R.id.etTimer);
         etQ = findViewById(R.id.etQuestion);
         et0 = findViewById(R.id.etOpt0);
         et1 = findViewById(R.id.etOpt1);
@@ -34,9 +35,7 @@ public class CreateQuizActivity extends AppCompatActivity {
         current = new Quiz("Untitled");
 
         btnAddQ.setOnClickListener(v -> {
-
             String q = etQ.getText().toString().trim();
-
             String[] opts = new String[]{
                     et0.getText().toString().trim(),
                     et1.getText().toString().trim(),
@@ -45,7 +44,6 @@ public class CreateQuizActivity extends AppCompatActivity {
             };
 
             int idx;
-
             try {
                 idx = Integer.parseInt(etCorrect.getText().toString().trim());
             } catch (Exception e) {
@@ -56,18 +54,15 @@ public class CreateQuizActivity extends AppCompatActivity {
                 Toast.makeText(this, "Isi kolom pertanyaan", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (opts[0].isEmpty() || opts[1].isEmpty() || opts[2].isEmpty() || opts[3].isEmpty()) {
                 Toast.makeText(this, "Semua pilihan jawaban harus diisi", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (idx < 0 || idx > 3) {
                 Toast.makeText(this, "Index jawaban harus antara 0 dan 3", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // FIX ERROR DI SINI
             current.addQuestion(new Question(q, Arrays.asList(opts), String.valueOf(idx)));
 
             etQ.setText("");
@@ -77,44 +72,45 @@ public class CreateQuizActivity extends AppCompatActivity {
             et3.setText("");
             etCorrect.setText("");
 
-            Toast.makeText(
-                    this,
-                    "Pertanyaan ditambahkan (" + current.getQuestions().size() + ")",
-                    Toast.LENGTH_SHORT
-            ).show();
+            Toast.makeText(this, "Pertanyaan ditambahkan (" + current.getQuestions().size() + ")", Toast.LENGTH_SHORT).show();
         });
 
         btnSave.setOnClickListener(v -> {
-
             String title = etTitle.getText().toString().trim();
 
             if (title.isEmpty()) {
                 Toast.makeText(this, "Judul kuis tidak boleh kosong", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             if (current.getQuestions().isEmpty()) {
                 Toast.makeText(this, "Tambahkan minimal 1 pertanyaan", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            current.setTitle(title);
-
-            ArrayList<Quiz> list = QuizStorage.getQuizzes(this);
-
-            if (list == null) {
-                list = new ArrayList<>();
+            // Ambil timer
+            int timer = 0;
+            String timerStr = etTimer.getText().toString().trim();
+            if (!timerStr.isEmpty()) {
+                try {
+                    timer = Integer.parseInt(timerStr);
+                    if (timer < 0) timer = 0;
+                } catch (Exception e) {
+                    timer = 0;
+                }
             }
 
+            current.setTitle(title);
+            current.setTimerMinutes(timer);
+
+            ArrayList<Quiz> list = QuizStorage.getQuizzes(this);
+            if (list == null) list = new ArrayList<>();
             list.add(current);
             QuizStorage.saveQuizzes(this, list);
+            BadgeManager.checkQuizCreated(this, false);
+            BadgeManager.checkQuizCount(this, list.size());
 
-            Toast.makeText(
-                    this,
-                    "Kuis '" + title + "' berhasil disimpan",
-                    Toast.LENGTH_LONG
-            ).show();
-
+            String timerInfo = timer > 0 ? " (Timer: " + timer + " menit)" : "";
+            Toast.makeText(this, "Kuis '" + title + "' berhasil disimpan" + timerInfo, Toast.LENGTH_LONG).show();
             finish();
         });
     }

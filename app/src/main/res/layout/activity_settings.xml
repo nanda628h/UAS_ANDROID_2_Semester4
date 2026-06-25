@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#0F172A">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="52dp"
+        android:paddingBottom="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚙️ Pengaturan"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#F8FAFC"
+            android:fontFamily="sans-serif-black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Sesuaikan tampilan aplikasi"
+            android:textSize="13sp"
+            android:textColor="#475569" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingHorizontal="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Section: Warna Tema -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="WARNA AKSEN"
+                android:textSize="11sp"
+                android:textColor="#475569"
+                android:letterSpacing="0.12" />
+
+            <!-- Card Input Hex -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="#1E293B"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Masukkan kode warna hex"
+                        android:textColor="#94A3B8"
+                        android:textSize="13sp"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Input + Preview -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <!-- Preview color -->
+                        <View
+                            android:id="@+id/viewColorPreview"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/circle_decoration"
+                            android:layout_marginEnd="12dp" />
+
+                        <!-- Input hex -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="#RRGGBB"
+                            app:boxStrokeColor="#334155"
+                            app:boxBackgroundColor="#0D1117"
+                            app:hintTextColor="#64748B">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etHexColor"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="text"
+                                android:textColor="#F1F5F9"
+                                android:textSize="16sp"
+                                android:fontFamily="monospace"
+                                android:maxLength="7" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <!-- Tombol Apply -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnApplyColor"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="16dp"
+                        android:text="Terapkan Warna"
+                        android:textStyle="bold"
+                        app:cornerRadius="12dp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Section: Preset Warna -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="PRESET WARNA"
+                android:textSize="11sp"
+                android:textColor="#475569"
+                android:letterSpacing="0.12" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="#1E293B"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- Row 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="12dp">
+
+                        <View android:id="@+id/presetBlue"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1" android:layout_marginEnd="8dp"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#1E40AF" />
+
+                        <View android:id="@+id/presetPurple"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1" android:layout_marginEnd="8dp"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#7C3AED" />
+
+                        <View android:id="@+id/presetGreen"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1" android:layout_marginEnd="8dp"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#059669" />
+
+                        <View android:id="@+id/presetRed"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#DC2626" />
+
+                    </LinearLayout>
+
+                    <!-- Row 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <View android:id="@+id/presetOrange"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1" android:layout_marginEnd="8dp"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#EA580C" />
+
+                        <View android:id="@+id/presetPink"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1" android:layout_marginEnd="8dp"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#DB2777" />
+
+                        <View android:id="@+id/presetTeal"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1" android:layout_marginEnd="8dp"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#0891B2" />
+
+                        <View android:id="@+id/presetYellow"
+                            android:layout_width="0dp" android:layout_height="44dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/circle_decoration"
+                            android:backgroundTint="#D97706" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAchievement"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="🏆 Lihat Achievement"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:backgroundTint="#1E293B" />
+    <!-- Tombol Set Pengingat -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSetReminder"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="⏰ Set Pengingat Belajar"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:backgroundTint="#1E293B" />
+    <!-- Tombol Matikan Pengingat -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancelReminder"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="🔕 Matikan Pengingat"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:backgroundTint="#7F1D1D" />
+
+    <!-- Tombol Kembali -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="Kembali"
+        android:textStyle="bold"
+        app:cornerRadius="16dp"
+        app:backgroundTint="#1E293B" />
+
+</LinearLayout>

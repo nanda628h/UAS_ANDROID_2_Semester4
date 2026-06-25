@@ -1,93 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F8F9FA"
-    android:padding="20dp">
+    android:background="#0F172A">
 
-    <!-- Header dengan Progress -->
+    <!-- Header: Judul + Progress + Timer -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="16dp">
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="16dp">
 
-        <TextView
-            android:id="@+id/tvProgress"
-            android:layout_width="wrap_content"
+        <!-- Row: Progress + Timer -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1/5"
-            android:textSize="16sp"
-            android:textColor="#666666"
-            android:fontFamily="sans-serif-medium" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="8dp"
-            android:layout_weight="1"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:progressTint="#1E88E5" />
+            <TextView
+                android:id="@+id/tvProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 / 5"
+                android:textSize="13sp"
+                android:textColor="#64748B"
+                android:fontFamily="sans-serif-medium" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="6dp"
+                android:layout_weight="1"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:progressTint="#1E40AF"
+                android:progressBackgroundTint="#1E293B" />
+
+            <!-- Timer pill -->
+            <TextView
+                android:id="@+id/tvTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⏱ 00:00"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#F8FAFC"
+                android:background="@drawable/badge_weather"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <!-- Judul Kuis -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#F8FAFC"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:lineSpacingExtra="4dp" />
 
     </LinearLayout>
 
-    <!-- Judul Kuis -->
-    <TextView
-        android:id="@+id/tvTitle"
+    <!-- Konten Scroll -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="#1E3A8A"
-        android:layout_marginBottom="24dp"
-        android:lineSpacingExtra="4dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true">
 
-    <!-- Nomor & Pertanyaan -->
-    <TextView
-        android:id="@+id/tvQuestion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="#212121"
-        android:lineSpacingExtra="8dp"
-        android:layout_marginBottom="32dp" />
-
-    <!-- RadioGroup dengan Card-like style -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="#FFFFFF">
-
-        <RadioGroup
-            android:id="@+id/rgOptions"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp" />
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
 
-    </androidx.cardview.widget.CardView>
+            <!-- Card Pertanyaan -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PERTANYAAN"
+                        android:textSize="11sp"
+                        android:textColor="#1E40AF"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.12"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:id="@+id/tvQuestion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="17sp"
+                        android:textColor="#F1F5F9"
+                        android:lineSpacingExtra="6dp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card Pilihan Jawaban -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PILIH JAWABAN"
+                        android:textSize="11sp"
+                        android:textColor="#1E40AF"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.12"
+                        android:layout_marginBottom="8dp" />
+
+                    <RadioGroup
+                        android:id="@+id/rgOptions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
 
     <!-- Tombol Next -->
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="56dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="24dp"
         android:text="Selanjutnya"
-        android:textSize="17sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        android:backgroundTint="#1E88E5"
-        android:textColor="#FFFFFF"
-        android:elevation="6dp"
-        android:stateListAnimator="@null"
-        android:fontFamily="sans-serif-medium" />
+        app:cornerRadius="16dp"
+        app:backgroundTint="#1E40AF" />
 
 </LinearLayout>

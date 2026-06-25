@@ -6,43 +6,42 @@
     android:background="@drawable/bg_gradient_blue"
     android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:padding="24dp">
 
+        <!-- Header -->
         <TextView
             android:id="@+id/tvHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-black"
-            android:text="@string/add_schedule_title"
+            android:text=" Tambah Jadwal"
             android:textColor="@android:color/white"
             android:textSize="28sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:id="@+id/tvSubHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="24dp"
             android:text="Lengkapi detail jadwal kuliahmu"
-            android:textColor="#E0E0E0"
+            android:textColor="#CCE0FF"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvHeader" />
+            android:layout_gravity="center_horizontal" />
 
-        <com.google.android.material.card.MaterialCardView
+        <!-- Card Form -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="24dp"
             app:cardElevation="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvSubHeader">
+            app:cardBackgroundColor="#FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,12 +49,23 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
+                <!-- Label Section -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" Informasi Kuliah"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#1E88E5"
+                    android:layout_marginBottom="14dp" />
+
+                <!-- Dosen -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/hint_dosen"
+                    android:layout_marginBottom="14dp"
+                    android:hint="Nama Dosen"
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
@@ -69,12 +79,13 @@
                         android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Ruangan -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/hint_ruangan"
+                    android:layout_marginBottom="14dp"
+                    android:hint="Ruang Kelas"
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
@@ -88,12 +99,13 @@
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Jam -->
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:hint="@string/hint_jam"
+                    android:layout_marginBottom="20dp"
+                    android:hint="⏰ Jam Kuliah (klik untuk pilih)"
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
@@ -105,38 +117,64 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:inputType="time" />
+                        android:cursorVisible="false"
+                        android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F0F0"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Pengingat -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="4dp"
-                    android:text="Pengingat"
+                    android:text="🔔 Pengingat"
+                    android:textSize="13sp"
                     android:textStyle="bold"
-                    android:textColor="@color/black" />
+                    android:textColor="#1E88E5"
+                    android:layout_marginBottom="10dp" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/bg_spinner_rounded"
                     android:paddingHorizontal="12dp">
 
                     <Spinner
                         android:id="@+id/spReminder"
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="52dp"
                         android:entries="@array/reminder_options" />
                 </FrameLayout>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F0F0F0"
+                    android:layout_marginBottom="16dp" />
+
+                <!-- Catatan -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📝 Catatan (opsional)"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#1E88E5"
+                    android:layout_marginBottom="10dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:hint="@string/hint_catatan"
+                    android:hint="Tulis catatan tambahan..."
                     app:boxCornerRadiusBottomEnd="12dp"
                     app:boxCornerRadiusBottomStart="12dp"
                     app:boxCornerRadiusTopEnd="12dp"
@@ -151,26 +189,31 @@
                         android:minLines="3" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Tombol Simpan -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSave"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
-                    android:text="@string/btn_save"
+                    android:layout_marginBottom="10dp"
+                    android:text="💾 Simpan Jadwal"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    app:cornerRadius="12dp"
-                    android:layout_marginBottom="8dp"/>
+                    app:cornerRadius="14dp" />
 
+                <!-- Tombol Batal -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnCancel"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:text="@string/btn_cancel"
-                    android:textColor="#757575" />
+                    android:layout_height="52dp"
+                    android:text="✕ Batal"
+                    android:textColor="#1E88E5"
+                    android:textSize="15sp"
+                    app:cornerRadius="14dp"
+                    app:strokeColor="#1E88E5" />
 
             </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+        </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </ScrollView>

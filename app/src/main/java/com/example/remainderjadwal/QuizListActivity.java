@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -69,7 +72,6 @@ public class QuizListActivity extends AppCompatActivity {
 
         refreshList();
 
-        // Klik biasa = Kerjakan Quiz
         lv.setOnItemClickListener((parent, view, position, id) -> {
             if (quizzes != null && position < quizzes.size()) {
                 Quiz q = quizzes.get(position);
@@ -78,27 +80,74 @@ public class QuizListActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+    }
 
-        // Long Press = Hapus Quiz
-        lv.setOnItemLongClickListener((parent, view, position, id) -> {
-            if (quizzes == null || position >= quizzes.size()) return true;
+    private void showQuizMenu(int position) {
+        if (quizzes == null || position >= quizzes.size()) return;
 
-            Quiz q = quizzes.get(position);
+        Quiz q = quizzes.get(position);
+        String timerInfo = q.getTimerMinutes() > 0
+                ? "⏱️ Timer: " + q.getTimerMinutes() + " menit"
+                : "⏱️ Belum ada timer";
 
-            new AlertDialog.Builder(this)
-                    .setTitle("Hapus Kuis?")
-                    .setMessage("Yakin ingin menghapus\n\"" + q.getTitle() + "\"?")
-                    .setPositiveButton("Ya, Hapus", (dialog, which) -> {
-                        quizzes.remove(position);
-                        QuizStorage.saveQuizzes(this, quizzes);
-                        refreshList();
-                        Toast.makeText(this, "Kuis berhasil dihapus", Toast.LENGTH_SHORT).show();
-                    })
-                    .setNegativeButton("Batal", null)
-                    .show();
+        // Gabungkan timer info ke title, hapus setMessage agar setItems bisa muncul
+        String dialogTitle = q.getTitle() + "\n" + timerInfo;
+        String[] options = {"✏️ Set Timer", "🗑️ Hapus Kuis"};
 
-            return true; // Penting! agar tidak memicu klik biasa
-        });
+        new AlertDialog.Builder(this)
+                .setTitle(dialogTitle)
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        showSetTimerDialog(position, q);
+                    } else if (which == 1) {
+                        new AlertDialog.Builder(this)
+                                .setTitle("Hapus Kuis?")
+                                .setMessage("Yakin ingin menghapus\n\"" + q.getTitle() + "\"?")
+                                .setPositiveButton("Ya, Hapus", (d, w) -> {
+                                    quizzes.remove(position);
+                                    QuizStorage.saveQuizzes(this, quizzes);
+                                    refreshList();
+                                    Toast.makeText(this, "Kuis berhasil dihapus", Toast.LENGTH_SHORT).show();
+                                })
+                                .setNegativeButton("Batal", null)
+                                .show();
+                    }
+                })
+                .show();
+    }
+
+    private void showSetTimerDialog(int position, Quiz q) {
+        EditText etInput = new EditText(this);
+        etInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER);
+        etInput.setHint("Menit (0 = tanpa timer)");
+        if (q.getTimerMinutes() > 0) {
+            etInput.setText(String.valueOf(q.getTimerMinutes()));
+        }
+        etInput.setPadding(50, 30, 50, 30);
+
+        new AlertDialog.Builder(this)
+                .setTitle("⏱️ Set Timer untuk \"" + q.getTitle() + "\"")
+                .setMessage("Masukkan durasi kuis (dalam menit).\nKosongkan atau isi 0 untuk tanpa timer.")
+                .setView(etInput)
+                .setPositiveButton("Simpan", (dialog, which) -> {
+                    int timer = 0;
+                    String input = etInput.getText().toString().trim();
+                    if (!input.isEmpty()) {
+                        try {
+                            timer = Integer.parseInt(input);
+                            if (timer < 0) timer = 0;
+                        } catch (Exception e) {
+                            timer = 0;
+                        }
+                    }
+                    q.setTimerMinutes(timer);
+                    QuizStorage.saveQuizzes(this, quizzes);
+                    refreshList();
+                    String msg = timer > 0 ? "Timer diset " + timer + " menit!" : "Timer dihapus.";
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Batal", null)
+                .show();
     }
 
     @Override
@@ -111,11 +160,32 @@ public class QuizListActivity extends AppCompatActivity {
         quizzes = QuizStorage.getQuizzes(this);
         if (quizzes == null) quizzes = new ArrayList<>();
 
-        String[] titles = new String[quizzes.size()];
-        for (int i = 0; i < quizzes.size(); i++) {
-            titles[i] = quizzes.get(i).getTitle() + " (" + quizzes.get(i).getQuestions().size() + " soal)";
-        }
-        lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titles));
+        ArrayAdapter<Quiz> adapter = new ArrayAdapter<Quiz>(this, R.layout.item_quiz, quizzes) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+                    convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_quiz, parent, false);
+                }
+
+                Quiz q = quizzes.get(position);
+
+                TextView tvQuizTitle = convertView.findViewById(R.id.tvQuizTitle);
+                TextView tvQuizInfo = convertView.findViewById(R.id.tvQuizInfo);
+                TextView btnMenu = convertView.findViewById(R.id.btnMenu);
+
+                tvQuizTitle.setText(q.getTitle());
+
+                String info = q.getQuestions().size() + " soal";
+                if (q.getTimerMinutes() > 0) info += " • ⏱️ " + q.getTimerMinutes() + " menit";
+                tvQuizInfo.setText(info);
+
+                btnMenu.setOnClickListener(v -> showQuizMenu(position));
+
+                return convertView;
+            }
+        };
+
+        lv.setAdapter(adapter);
     }
 
     private void generateQuizWithAI(String topic) {
@@ -177,6 +247,8 @@ public class QuizListActivity extends AppCompatActivity {
 
                     quizzes.add(newQuiz);
                     QuizStorage.saveQuizzes(this, quizzes);
+                    BadgeManager.checkQuizCreated(this, true);
+                    BadgeManager.checkQuizCount(this, quizzes.size());
 
                     mainHandler.post(() -> {
                         progressBar.setVisibility(View.GONE);
@@ -211,12 +283,6 @@ public class QuizListActivity extends AppCompatActivity {
                     showError("❌ Gagal: " + e.getMessage());
                 }
             }
-
-            // Jika semua retry gagal
-            mainHandler.post(() -> {
-                progressBar.setVisibility(View.GONE);
-                btnGenerateAI.setEnabled(true);
-            });
         });
     }
 

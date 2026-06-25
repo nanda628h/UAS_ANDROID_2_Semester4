@@ -1,6 +1,12 @@
 package com.example.remainderjadwal;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -14,28 +20,36 @@ import java.util.List;
 
 public class TakeQuizActivity extends AppCompatActivity {
 
-    private TextView tvTitle, tvQuestion, tvProgress;
+    private TextView tvTitle, tvQuestion, tvProgress, tvTimer;
     private RadioGroup rgOptions;
     private Button btnNext;
+    private View rootView;
 
     private Quiz quiz;
     private int currentIndex = 0;
     private int score = 0;
+    private int correctCount = 0;
+    private int consecCorrect = 0;
     private final ArrayList<Integer> selectedAnswers = new ArrayList<>();
+
+    private CountDownTimer countDownTimer;
+    private boolean timerRunning = false;
+    private ValueAnimator panicAnimator;
+    private boolean isPanicMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_quiz);
 
-        // Inisialisasi View
-        tvTitle = findViewById(R.id.tvTitle);
+        tvTitle    = findViewById(R.id.tvTitle);
         tvQuestion = findViewById(R.id.tvQuestion);
         tvProgress = findViewById(R.id.tvProgress);
-        rgOptions = findViewById(R.id.rgOptions);
-        btnNext = findViewById(R.id.btnNext);
+        tvTimer    = findViewById(R.id.tvTimer);
+        rgOptions  = findViewById(R.id.rgOptions);
+        btnNext    = findViewById(R.id.btnNext);
+        rootView   = findViewById(R.id.rootLayout);
 
-        // Ambil data quiz
         quiz = (Quiz) getIntent().getSerializableExtra("quiz");
 
         if (quiz == null || quiz.getQuestions() == null || quiz.getQuestions().isEmpty()) {
@@ -46,38 +60,95 @@ public class TakeQuizActivity extends AppCompatActivity {
 
         tvTitle.setText(quiz.getTitle());
 
-        // Inisialisasi array jawaban
         for (int i = 0; i < quiz.getQuestions().size(); i++) {
             selectedAnswers.add(-1);
         }
 
         showQuestion();
-
         btnNext.setOnClickListener(v -> nextQuestion());
+
+        if (quiz.getTimerMinutes() > 0) {
+            tvTimer.setVisibility(View.VISIBLE);
+            startTimer(quiz.getTimerMinutes() * 60 * 1000L);
+        } else {
+            tvTimer.setVisibility(View.GONE);
+        }
+    }
+
+    private void startTimer(long millisTotal) {
+        timerRunning = true;
+        countDownTimer = new CountDownTimer(millisTotal, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long minutes = millisUntilFinished / 60000;
+                long seconds = (millisUntilFinished % 60000) / 1000;
+                tvTimer.setText(String.format("⏱ %02d:%02d", minutes, seconds));
+
+                if (millisUntilFinished <= 60000 && !isPanicMode) {
+                    startPanicMode();
+                }
+            }
+
+            @Override
+            public void onFinish() {
+                tvTimer.setText("⏱ 00:00");
+                stopPanicMode();
+                Toast.makeText(TakeQuizActivity.this, "Waktu habis!", Toast.LENGTH_SHORT).show();
+                calculateFinalScore();
+            }
+        }.start();
+    }
+
+    private void startPanicMode() {
+        isPanicMode = true;
+        tvTimer.setTextColor(Color.parseColor("#EF4444"));
+
+        panicAnimator = ValueAnimator.ofArgb(
+                Color.parseColor("#0F172A"),
+                Color.parseColor("#2D0A0A")
+        );
+        panicAnimator.setDuration(800);
+        panicAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        panicAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        panicAnimator.addUpdateListener(animator -> {
+            if (rootView != null) {
+                rootView.setBackgroundColor((int) animator.getAnimatedValue());
+            }
+        });
+        panicAnimator.start();
+
+        ObjectAnimator shakeTimer = ObjectAnimator.ofFloat(tvTimer, "translationX", -8f, 8f);
+        shakeTimer.setDuration(100);
+        shakeTimer.setRepeatCount(ValueAnimator.INFINITE);
+        shakeTimer.setRepeatMode(ValueAnimator.REVERSE);
+        shakeTimer.start();
+    }
+
+    private void stopPanicMode() {
+        isPanicMode = false;
+        if (panicAnimator != null) panicAnimator.cancel();
+        if (rootView != null) rootView.setBackgroundColor(Color.parseColor("#0F172A"));
+        tvTimer.setTranslationX(0);
+        tvTimer.setTextColor(Color.parseColor("#F8FAFC"));
     }
 
     private void showQuestion() {
         Question q = quiz.getQuestions().get(currentIndex);
 
-        // Update Progress (contoh: 1/5)
-        if (tvProgress != null) {
-            tvProgress.setText((currentIndex + 1) + "/" + quiz.getQuestions().size());
-        }
-
-        // Tampilkan pertanyaan
+        tvProgress.setText((currentIndex + 1) + " / " + quiz.getQuestions().size());
         tvQuestion.setText(q.getPertanyaan());
 
-        // Bersihkan dan tambah pilihan jawaban
         rgOptions.removeAllViews();
 
         List<String> pilihan = q.getPilihan();
-        for (String option : pilihan) {
+        for (int i = 0; i < pilihan.size(); i++) {
             RadioButton rb = new RadioButton(this);
-            rb.setText(option);
-            rb.setTextSize(17);
+            rb.setText(pilihan.get(i));
+            rb.setId(i);
+            rb.setTextSize(15);
             rb.setPadding(24, 20, 24, 20);
+            rb.setTextColor(Color.parseColor("#F1F5F9"));
 
-            // Margin antar pilihan
             RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
                     RadioGroup.LayoutParams.MATCH_PARENT,
                     RadioGroup.LayoutParams.WRAP_CONTENT);
@@ -87,59 +158,93 @@ public class TakeQuizActivity extends AppCompatActivity {
             rgOptions.addView(rb);
         }
 
-        // Restore jawaban yang sudah dipilih sebelumnya
-        int prev = selectedAnswers.get(currentIndex);
-        if (prev != -1 && prev < rgOptions.getChildCount()) {
-            ((RadioButton) rgOptions.getChildAt(prev)).setChecked(true);
+        int prevSelected = selectedAnswers.get(currentIndex);
+        if (prevSelected != -1) {
+            RadioButton rb = rgOptions.findViewById(prevSelected);
+            if (rb != null) rb.setChecked(true);
         }
 
-        // Ubah teks tombol
-        btnNext.setText(currentIndex == quiz.getQuestions().size() - 1 ? "Selesai" : "Selanjutnya");
+        if (currentIndex == quiz.getQuestions().size() - 1) {
+            btnNext.setText("Selesai");
+        } else {
+            btnNext.setText("Selanjutnya");
+        }
     }
 
     private void nextQuestion() {
-        // Simpan jawaban yang dipilih
-        int selected = -1;
-        for (int i = 0; i < rgOptions.getChildCount(); i++) {
-            if (((RadioButton) rgOptions.getChildAt(i)).isChecked()) {
-                selected = i;
-                break;
-            }
+        int checkedId = rgOptions.getCheckedRadioButtonId();
+        if (checkedId == -1) {
+            Toast.makeText(this, "Pilih jawaban dulu!", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        selectedAnswers.set(currentIndex, selected);
+        selectedAnswers.set(currentIndex, checkedId);
 
-        // Cek jawaban benar
-        Question q = quiz.getQuestions().get(currentIndex);
-        String jawabanBenar = q.getJawabanBenar();
+        Question currentQuestion = quiz.getQuestions().get(currentIndex);
+        int correctIndex = currentQuestion.getCorrectIndex();
 
-        int correctIndex = -1;
-        if (jawabanBenar != null && jawabanBenar.length() == 1) {
-            char letter = Character.toUpperCase(jawabanBenar.charAt(0));
-            correctIndex = letter - 'A';   // A=0, B=1, C=2, D=3
+        if (checkedId == correctIndex) {
+            consecCorrect++;
+            BadgeManager.checkConsecCorrect(this, consecCorrect);
+        } else {
+            consecCorrect = 0;
+
+            List<String> pilihan = currentQuestion.getPilihan();
+            String jawabanUserText = (checkedId >= 0 && checkedId < pilihan.size())
+                    ? pilihan.get(checkedId) : "?";
+            String jawabanBenarText = (correctIndex >= 0 && correctIndex < pilihan.size())
+                    ? pilihan.get(correctIndex) : "?";
+
+            WrongAnswer wa = new WrongAnswer(
+                    quiz.getTitle(),
+                    currentQuestion.getPertanyaan(),
+                    jawabanUserText,
+                    jawabanBenarText
+            );
+            MuseumStorage.addWrongAnswer(this, wa);
         }
 
-        if (selected == correctIndex) {
-            score += 20;
-        }
-
-        currentIndex++;
-
-        if (currentIndex < quiz.getQuestions().size()) {
+        if (currentIndex < quiz.getQuestions().size() - 1) {
+            currentIndex++;
             showQuestion();
         } else {
-            finishQuiz();
+            calculateFinalScore();
         }
     }
 
-    private void finishQuiz() {
-        String result = "Quiz Selesai!\n\n" +
-                "Skor kamu: " + score + " / " + (quiz.getQuestions().size() * 20) + "\n" +
-                "Benar: " + (score / 20) + " dari " + quiz.getQuestions().size() + " soal";
+    private void calculateFinalScore() {
+        if (countDownTimer != null) countDownTimer.cancel();
+        stopPanicMode();
 
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
+        correctCount = 0;
+        List<Question> questions = quiz.getQuestions();
 
-        // Bisa ditambah dialog hasil yang lebih cantik nanti
+        for (int i = 0; i < questions.size(); i++) {
+            int selected = selectedAnswers.get(i);
+            if (selected != -1 && selected == questions.get(i).getCorrectIndex()) {
+                correctCount++;
+            }
+        }
+
+        score = (int) ((correctCount / (double) questions.size()) * 100);
+
+        boolean usedTimer = quiz.getTimerMinutes() > 0;
+        BadgeManager.checkQuizCompleted(this, score, usedTimer);
+
+        Intent intent = new Intent(this, QuizResultActivity.class);
+        intent.putExtra("score", score);
+        intent.putExtra("correct", correctCount);
+        intent.putExtra("total", questions.size());
+        intent.putExtra("quiz", quiz);
+        intent.putIntegerArrayListExtra("selectedAnswers", selectedAnswers);
+        startActivity(intent);
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) countDownTimer.cancel();
+        if (panicAnimator != null) panicAnimator.cancel();
     }
 }

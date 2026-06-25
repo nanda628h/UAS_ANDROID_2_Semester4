@@ -1,77 +1,248 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_gradient_blue"
-    android:padding="20dp">
+    android:orientation="vertical"
+    android:background="#0F172A">
 
+    <!-- Header -->
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="52dp"
+        android:paddingBottom="32dp">
 
-        <!-- Judul -->
+        <TextView
+            android:id="@+id/tvWeatherIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌤️"
+            android:textSize="48sp"
+            android:layout_gravity="center_horizontal" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Detail Jadwal Kuliah"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center" />
+            android:text="Detail Jadwal"
+            android:textSize="14sp"
+            android:textColor="#64748B"
+            android:textAllCaps="true"
+            android:letterSpacing="0.15"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp" />
 
-        <!-- Nama Dosen -->
-        <TextView
-            android:id="@+id/tvDosen"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dosen: -"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Ruangan -->
-        <TextView
-            android:id="@+id/tvRuangan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ruangan: -"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Jam -->
         <TextView
             android:id="@+id/tvJam"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Jam: -"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="12dp" />
+            android:text="--:--"
+            android:textSize="56sp"
+            android:textStyle="bold"
+            android:textColor="#F8FAFC"
+            android:fontFamily="sans-serif-black"
+            android:layout_gravity="center_horizontal"
+            android:letterSpacing="-0.03" />
 
-        <!-- Catatan -->
         <TextView
-            android:id="@+id/tvCatatan"
+            android:id="@+id/tvWeatherStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Catatan: -"
-            android:textSize="18sp"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="16dp" />
-
-        <!-- Tombol kembali -->
-        <Button
-            android:id="@+id/btnBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kembali"
-            android:backgroundTint="#2196F3"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="24dp" />
+            android:text="Menghitung..."
+            android:textSize="13sp"
+            android:textColor="#94A3B8"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="4dp" />
 
     </LinearLayout>
-</ScrollView>
+
+    <!-- Card Info -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Card Dosen -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:text="👨‍🏫"
+                        android:textSize="22sp"
+                        android:gravity="center" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DOSEN"
+                            android:textSize="11sp"
+                            android:textColor="#64748B"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:id="@+id/tvDosen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#F1F5F9"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card Ruangan -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:text="📍"
+                        android:textSize="22sp"
+                        android:gravity="center" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="RUANGAN"
+                            android:textSize="11sp"
+                            android:textColor="#64748B"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:id="@+id/tvRuangan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="#F1F5F9"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card Catatan -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#1E293B">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="20dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:text="📝"
+                        android:textSize="22sp"
+                        android:gravity="center" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CATATAN"
+                            android:textSize="11sp"
+                            android:textColor="#64748B"
+                            android:letterSpacing="0.1" />
+
+                        <TextView
+                            android:id="@+id/tvCatatan"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textSize="16sp"
+                            android:textColor="#F1F5F9"
+                            android:layout_marginTop="2dp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Tombol Kembali -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBack"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="24dp"
+        android:text="Kembali"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        app:cornerRadius="16dp"
+        app:backgroundTint="#1E40AF" />
+
+</LinearLayout>

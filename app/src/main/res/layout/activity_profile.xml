@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4FF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Header -->
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="6dp"
+            app:cardBackgroundColor="#1E3A8A">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="24dp">
+
+                <!-- Foto Profil -->
+                <ImageView
+                    android:id="@+id/ivPhoto"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/circle_bg"
+                    android:clipToOutline="true"
+                    android:src="@android:drawable/ic_menu_myplaces" />
+
+                <Button
+                    android:id="@+id/btnPickPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="12dp"
+                    android:text="📷 Ganti Foto"
+                    android:textSize="12sp"
+                    android:backgroundTint="#1E88E5"
+                    android:textColor="#FFFFFF"
+                    android:stateListAnimator="@null" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Form Profil -->
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤 Informasi Profil"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#1E88E5"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nama"
+                    android:textSize="13sp"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/etNama"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Masukkan nama kamu"
+                    android:padding="12dp"
+                    android:textSize="15sp"
+                    android:background="@drawable/edittext_bg"
+                    android:layout_marginBottom="16dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jurusan / Kelas"
+                    android:textSize="13sp"
+                    android:textColor="#888888"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/etJurusan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Masukkan jurusan atau kelas"
+                    android:padding="12dp"
+                    android:textSize="15sp"
+                    android:background="@drawable/edittext_bg" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Statistik -->
+        <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📊 Statistik Belajar"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="#1E88E5"
+                    android:layout_marginBottom="12dp" />
+
+                <TextView
+                    android:id="@+id/tvTotalKuis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="📚 Total Kuis: 0"
+                    android:textSize="15sp"
+                    android:textColor="#1A1A2E"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/tvRataSkor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⭐ Rata-rata Skor: Belum ada data"
+                    android:textSize="15sp"
+                    android:textColor="#1A1A2E" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Tombol Simpan & Back -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="💾 Simpan Profil"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="#1E3A8A"
+            android:textColor="#FFFFFF"
+            android:stateListAnimator="@null"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="← Kembali"
+            android:textSize="16sp"
+            android:backgroundTint="#E0E0E0"
+            android:textColor="#555555"
+            android:stateListAnimator="@null" />
+
+    </LinearLayout>
+</ScrollView>

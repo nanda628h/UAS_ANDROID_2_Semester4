@@ -45,6 +45,33 @@
             </com.google.android.material.textfield.TextInputLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Timer Setting -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Timer (menit, kosongkan = tanpa timer)"
+                app:boxBackgroundColor="@android:color/white"
+                app:helperText="Contoh: 5 (untuk 5 menit). Kosongkan jika tidak ingin pakai timer."
+                app:startIconDrawable="@android:drawable/ic_lock_idle_alarm">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTimer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:fontFamily="sans-serif-medium"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

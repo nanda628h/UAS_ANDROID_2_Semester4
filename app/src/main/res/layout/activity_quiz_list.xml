@@ -1,104 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F4F7FA">
+    android:orientation="vertical"
+    android:background="#F0F4FF">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardHeader"
+    <!-- Header Biru -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:orientation="vertical"
+        android:background="#1E3A8A"
+        android:padding="20dp"
+        android:paddingBottom="24dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" Kuis Saya"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Input Topik AI -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <EditText
+                android:id="@+id/etTopic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Topik kuis (misal: Investasi)"
+                android:padding="14dp"
+                android:background="@null"
+                android:textSize="14sp"
+                android:inputType="text" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Tombol Generate & Manual -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Generasi Kuis AI"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:textColor="#1976D2"
-                android:layout_marginBottom="12dp"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayoutTopic"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Masukkan topik kuis (misal: Investasi)"
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusTopStart="12dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTopic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
+            <Button
                 android:id="@+id/btnGenerateAI"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="12dp"
-                android:text="Generate Kuis AI"
-                app:cornerRadius="12dp"
-                app:icon="@android:drawable/ic_menu_edit" />
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="✨ Generate AI"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:backgroundTint="#1E88E5"
+                android:textColor="#FFFFFF"
+                android:stateListAnimator="@null" />
 
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:visibility="gone" />
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="✏️ Buat Manual"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:backgroundTint="#FFFFFF"
+                android:textColor="#1E3A8A"
+                android:stateListAnimator="@null" />
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnCreate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Buat Quiz Baru Secara Manual"
-        app:cornerRadius="12dp"
-        app:layout_constraintTop_toBottomOf="@id/cardHeader" />
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:visibility="gone" />
 
+    </LinearLayout>
+
+    <!-- Label -->
     <TextView
-        android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Koleksi Kuis Kamu"
+        android:text=" Koleksi Kuis Kamu"
+        android:textSize="15sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnCreate" />
+        android:textColor="#1E3A8A"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="4dp" />
 
+    <!-- List Kuis -->
     <ListView
         android:id="@+id/lvQuizzes"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_weight="1"
         android:divider="@android:color/transparent"
-        android:dividerHeight="8dp"
-        android:paddingHorizontal="16dp"
+        android:dividerHeight="0dp"
         android:clipToPadding="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvLabel" />
+        android:paddingBottom="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
