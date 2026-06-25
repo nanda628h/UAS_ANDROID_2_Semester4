@@ -1,4 +1,4 @@
-# UTS Pemrograman Mobile 2 - Semester Genap 2025/2026
+# UAS Pemrograman Mobile 2 - Semester Genap 2025/2026
 
 **Nama:** Ananda Friezy Eka Cahya
 **NIM:** 312410151
